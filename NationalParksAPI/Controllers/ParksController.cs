@@ -58,18 +58,18 @@ namespace NationalParksAPI.Controllers
       return await query.ToListAsync();
     }
 
-    // WHAT DID I BREAK HERE???????
-    // [HttpPost("{stateid}/add")]
-    // public async Task<ActionResult<Park>> Post(Park park, int stateid)
-    // {
-    //   var state = _db.States.Include(entry => entry.Parks).FirstOrDefault(entry => entry.StateId == stateid);
-    //   park.StateId = stateid;
-    //   state.Parks.Add(park);
-    //   _db.States.Update(state);
-    //   _db.Parks.Add(park);
-    //   await _db.SaveChangesAsync();
-    //   return CreatedAtAction(nameof(GetPark), new { id = park.ParkId }, park);
-    // }
+    [HttpPost("{stateid}/add")]
+    public async Task<ActionResult<Park>> Post(Park park, int stateid)
+    {
+      var state = _db.States.Include(entry => entry.Parks).FirstOrDefault(entry => entry.StateId == stateid);
+      park.StateId = stateid;
+      state.Parks.Add(park);
+      _db.States.Update(state);
+      _db.Parks.Add(park);
+      await _db.SaveChangesAsync();
+
+      return NoContent();
+    }
 
     [HttpPut("edit/{parkid}")]
     public async Task<ActionResult> Put(int parkid, Park park)
