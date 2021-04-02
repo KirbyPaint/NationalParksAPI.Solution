@@ -1,4 +1,9 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NationalParksAPI.Models;
 
 namespace NationalParksAPI.Controllers
 {
@@ -6,5 +11,37 @@ namespace NationalParksAPI.Controllers
   [ApiController]
   public class StatesController : ControllerBase
   {
+    private readonly NationalParksAPIContext _db;
+    public StatesController(NationalParksAPIContext db)
+    {
+      _db = db;
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<IEnumerable<State>>> GetState(int id)
+    {
+      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+      if (query == null)
+      {
+        return NotFound();
+      }
+      query = query.Where(entry => entry.StateId == id);
+
+      return await query.ToListAsync();
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
+    {
+      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+      if (statename != null)
+      {
+        query = query.Where(e => e.StateName.Contains(statename));
+      }
+
+      return await query.ToListAsync();
+    }
   }
 }

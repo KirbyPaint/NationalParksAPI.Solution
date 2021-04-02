@@ -3,21 +3,21 @@
 ### Parks
 
 #### Getting Info
-GET ALL: http://localhost:5000/api/parks/all
-GET BY ID: http://localhost:5000/api/parks/`ParkId`
+GET ALL: http://localhost:5000/api/parks/all  
+GET BY ID: http://localhost:5000/api/parks/`ParkId`  
   Where `ParkId` is that Park's ParkId value as integer (starting at 1)
 
 Search Parameters & Examples
-  http://localhost:5000/api/parks?`name`=`john`
-  http://localhost:5000/api/parks?`description`=`john`
-  http://localhost:5000/api/parks?`longitude`=`42.9`&`latitude`=`-122.1`
+  http://localhost:5000/api/parks?`name`=`john`  
+  http://localhost:5000/api/parks?`description`=`john`  
+  http://localhost:5000/api/parks?`longitude`=`42.9`&`latitude`=`-122.1`  
     Note: on lat/lon, it is a ranged search with some wiggle room, since the data can get incredibly specific (LOTS OF DECIMAL POINTS and no way to tell how many significant figures will be included) ensure that the latitude and longitude are within 1 degree (0.5 +/-) for accurate results
 
 #### Sending Info
-POST: http://localhost:5000/api/parks/`StateId`/add
+POST: http://localhost:5000/api/parks/`StateId`/add  
   Where `StateId` is the numerical value for the State this Park belongs in (starting at 1, default max of 50, one per state)
 
-Empty Structure for posting to state:
+Empty Structure for posting to state:  
   Note: StateId parameter is omitted due to the value being inserted through the route. DO NOT add this back in or it may affect the overall file structure
 ```
 Example:
@@ -39,7 +39,7 @@ Empty Example:
 }
 ```
 
-PUT: http://localhost:5000/api/parks/edit/`ParkId`
+PUT: http://localhost:5000/api/parks/edit/`ParkId`  
   Where `ParkId` is that Park's ParkId value as integer (starting at 1)
 ```
 Empty Example:
@@ -54,8 +54,23 @@ Empty Example:
 }
 ```
 #### Removing Info
-DELETE: http://localhost:5000/api/parks/delete/`ParkId`
+DELETE: http://localhost:5000/api/parks/delete/`ParkId`  
   Where `ParkId` is that Park's ParkId value as integer (starting at 1)
+
+### States
+
+#### Getting Info
+
+GET ALL: http://localhost:5000/api/states
+GET STATE BY ID: http://localhost:5000/api/states/`StateId`  
+  Where `StateId` is that State's StateId value as integer (starting at 1, seeded data ends at 50)
+
+Search Parameters & Examples  
+http://localhost:5000/api/states?`statename`=`north`
+
+#### Sending Info
+
+
 
 ### STATE IDs AND CORRESPONDING STATES
 
