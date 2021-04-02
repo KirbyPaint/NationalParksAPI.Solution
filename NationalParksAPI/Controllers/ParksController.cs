@@ -24,10 +24,10 @@ namespace NationalParksAPI.Controllers
       return await query.ToListAsync();
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<Park>> GetPark(int id)
+    [HttpGet("{parkid}")]
+    public async Task<ActionResult<Park>> GetPark(int parkid)
     {
-      var park = await _db.Parks.FindAsync(id);
+      var park = await _db.Parks.FindAsync(parkid);
 
       if (park == null)
       {
@@ -69,6 +69,40 @@ namespace NationalParksAPI.Controllers
       await _db.SaveChangesAsync();
 
       return CreatedAtAction(nameof(GetPark), new { id = park.ParkId }, park);
+    }
+
+    [HttpPut("edit/{parkid}")]
+    public async Task<ActionResult> Put(int parkid, Park park)
+    {
+      if (parkid != park.ParkId)
+      {
+        return NotFound();
+      }
+
+      _db.Entry(park).State = EntityState.Modified;
+
+      try
+      {
+        await _db.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (!ParkExists(parkid))
+        {
+          return NotFound();
+        }
+        else
+        {
+          throw;
+        }
+      }
+
+      return NoContent();
+    }
+
+    private bool ParkExists(int id)
+    {
+      return _db.Parks.Any(e => e.ParkId == id);
     }
   }
 }
