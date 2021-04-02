@@ -58,18 +58,18 @@ namespace NationalParksAPI.Controllers
       return await query.ToListAsync();
     }
 
-    [HttpPost("{stateid}/add")]
-    public async Task<ActionResult<Park>> Post(Park park, int stateid)
-    {
-      var state = _db.States.Include(entry => entry.Parks).FirstOrDefault(entry => entry.StateId == stateid);
-      park.StateId = stateid;
-      state.Parks.Add(park);
-      _db.States.Update(state);
-      _db.Parks.Add(park);
-      await _db.SaveChangesAsync();
-
-      return CreatedAtAction(nameof(GetPark), new { id = park.ParkId }, park);
-    }
+    // WHAT DID I BREAK HERE???????
+    // [HttpPost("{stateid}/add")]
+    // public async Task<ActionResult<Park>> Post(Park park, int stateid)
+    // {
+    //   var state = _db.States.Include(entry => entry.Parks).FirstOrDefault(entry => entry.StateId == stateid);
+    //   park.StateId = stateid;
+    //   state.Parks.Add(park);
+    //   _db.States.Update(state);
+    //   _db.Parks.Add(park);
+    //   await _db.SaveChangesAsync();
+    //   return CreatedAtAction(nameof(GetPark), new { id = park.ParkId }, park);
+    // }
 
     [HttpPut("edit/{parkid}")]
     public async Task<ActionResult> Put(int parkid, Park park)
@@ -100,9 +100,23 @@ namespace NationalParksAPI.Controllers
       return NoContent();
     }
 
-    private bool ParkExists(int id)
+    [HttpDelete("delete/{parkid}")]
+    public async Task<ActionResult> DeletePark(int parkid)
     {
-      return _db.Parks.Any(e => e.ParkId == id);
+      var park = await _db.Parks.FindAsync(parkid);
+      if (park == null)
+      {
+        return NotFound();
+      }
+
+      _db.Parks.Remove(park);
+      await _db.SaveChangesAsync();
+
+      return NoContent();
+    }
+    private bool ParkExists(int parkid)
+    {
+      return _db.Parks.Any(e => e.ParkId == parkid);
     }
   }
 }

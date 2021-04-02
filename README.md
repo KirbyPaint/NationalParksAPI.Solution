@@ -54,7 +54,8 @@ Empty Example:
 }
 ```
 #### Removing Info
-DELETE:
+DELETE: http://localhost:5000/api/parks/delete/`ParkId`
+  Where `ParkId` is that Park's ParkId value as integer (starting at 1)
 
 ### STATE IDs AND CORRESPONDING STATES
 
