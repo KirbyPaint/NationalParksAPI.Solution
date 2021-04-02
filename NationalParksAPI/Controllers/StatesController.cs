@@ -31,7 +31,20 @@ namespace NationalParksAPI.Controllers
       return await query.ToListAsync();
     }
 
-    [HttpGet]
+    // [HttpGet]
+    // public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
+    // {
+    //   var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+    //   if (statename != null)
+    //   {
+    //     query = query.Where(e => e.StateName.Contains(statename));
+    //   }
+
+    //   return await query.ToListAsync();
+    // }
+
+    [HttpGet("api/{v:apiVersion}/Values")]
     public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
     {
       var query = _db.States.Include(entry => entry.Parks).AsQueryable();
