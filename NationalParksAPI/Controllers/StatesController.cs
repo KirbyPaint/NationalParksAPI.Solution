@@ -20,6 +20,14 @@ namespace NationalParksAPI.Controllers
     {
       return new string[] { "Value1 from Version 1", "value2 from Version 1" };
     }
+
+    // GET api/values
+    [HttpGet]
+    [MapToApiVersion("2.0")]
+    public IEnumerable<string> GetV2_0()
+    {
+      return new string[] { "Value1 from Version 2", "value2 from Version 2" };
+    }
   }
 
   [ApiVersion("2.0")]
