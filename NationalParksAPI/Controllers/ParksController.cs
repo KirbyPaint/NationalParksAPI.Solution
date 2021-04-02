@@ -19,6 +19,19 @@ namespace NationalParksAPI.Controllers
       _db = db;
     }
 
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Park>> GetPark(int id)
+    {
+      var park = await _db.Parks.FindAsync(id);
+
+      if (park == null)
+      {
+        return NotFound();
+      }
+
+      return park;
+    }
+
     public async Task<ActionResult<IEnumerable<Park>>> Get(string name)
     {
       var query = _db.Parks.AsQueryable();
