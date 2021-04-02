@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NationalParksAPI.Models;
@@ -19,6 +17,13 @@ namespace NationalParksAPI.Controllers
       _db = db;
     }
 
+    [HttpGet("all")]
+    public async Task<ActionResult<IEnumerable<Park>>> Get()
+    {
+      var query = _db.Parks.AsQueryable();
+      return await query.ToListAsync();
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<Park>> GetPark(int id)
     {
@@ -32,6 +37,7 @@ namespace NationalParksAPI.Controllers
       return park;
     }
 
+    [HttpGet]
     public async Task<ActionResult<IEnumerable<Park>>> Get(string name, string description, double longitude, double latitude)
     {
       var query = _db.Parks.AsQueryable();
@@ -44,12 +50,25 @@ namespace NationalParksAPI.Controllers
       {
         query = query.Where(entry => entry.Description.Contains(description));
       }
-      if (longitude != null && latitude != null)
+      if (latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180)
       {
         query = query.Where(entry => entry.Longitude <= (longitude + 0.5) && entry.Longitude >= (longitude - 0.5) && entry.Latitude <= (latitude + 0.5) && entry.Latitude >= (latitude - 0.5));
       }
 
       return await query.ToListAsync();
+    }
+
+    [HttpPost("{stateid}/add")]
+    public async Task<ActionResult<Park>> Post(Park park, int stateid)
+    {
+      var state = _db.States.Include(entry => entry.Parks).FirstOrDefault(entry => entry.StateId == stateid);
+      park.StateId = stateid;
+      state.Parks.Add(park);
+      _db.States.Update(state);
+      _db.Parks.Add(park);
+      await _db.SaveChangesAsync();
+
+      return CreatedAtAction(nameof(GetPark), new { id = park.ParkId }, park);
     }
   }
 }
