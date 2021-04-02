@@ -32,13 +32,21 @@ namespace NationalParksAPI.Controllers
       return park;
     }
 
-    public async Task<ActionResult<IEnumerable<Park>>> Get(string name)
+    public async Task<ActionResult<IEnumerable<Park>>> Get(string name, string description, double longitude, double latitude)
     {
       var query = _db.Parks.AsQueryable();
 
       if (name != null)
       {
         query = query.Where(entry => entry.Name.Contains(name));
+      }
+      if (description != null)
+      {
+        query = query.Where(entry => entry.Description.Contains(description));
+      }
+      if (longitude != null && latitude != null)
+      {
+        query = query.Where(entry => entry.Longitude <= (longitude + 0.5) && entry.Longitude >= (longitude - 0.5) && entry.Latitude <= (latitude + 0.5) && entry.Latitude >= (latitude - 0.5));
       }
 
       return await query.ToListAsync();
