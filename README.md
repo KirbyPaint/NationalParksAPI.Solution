@@ -17,8 +17,8 @@ Search Parameters & Examples
 POST: http://localhost:5000/api/parks/`StateId`/add  
   Where `StateId` is the numerical value for the State this Park belongs in (starting at 1, default max of 50, one per state)
 
-Empty Structure for posting to state:  
-  Note: StateId parameter is omitted due to the value being inserted through the route. DO NOT add this back in or it may affect the overall file structure
+Structure for posting to Parks:  
+  Note: DO NOT add "missing" StateId or ParkId information in the request or it may affect the overall file structure
 ```
 Example:
 {
@@ -70,7 +70,19 @@ http://localhost:5000/api/states?`statename`=`north`
 
 #### Sending Info
 
+POST: http://localhost:5000/api/states/add
+```
+Example
+{
+    "statename": "Puerto Rico"
+}
 
+Example with custom StateId - recommended best practice is to allow the database to increment its own IDs, but this is technically possible.
+{
+    "stateId": 60,
+    "stateName": "Cascadia"
+}
+```
 
 ### STATE IDs AND CORRESPONDING STATES
 

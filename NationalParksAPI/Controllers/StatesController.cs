@@ -43,5 +43,14 @@ namespace NationalParksAPI.Controllers
 
       return await query.ToListAsync();
     }
+
+    [HttpPost("add")]
+    public async Task<ActionResult<State>> Post(State state)
+    {
+      _db.States.Add(state);
+      await _db.SaveChangesAsync();
+
+      return CreatedAtAction("Post", new { id = state.StateId }, state);
+    }
   }
 }
