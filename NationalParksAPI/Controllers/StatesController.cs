@@ -9,8 +9,8 @@ namespace NationalParksAPI.Controllers
 {
   [Route("api/states")]
   [ApiController]
-  [ApiVersion("1.0")]
-  [ApiVersion("2.0")]
+  // [ApiVersion("1.0")]
+  // [ApiVersion("2.0")]
   public class StatesController : ControllerBase
   {
     private readonly NationalParksAPIContext _db;
@@ -56,43 +56,43 @@ namespace NationalParksAPI.Controllers
     }
 
     // Version 2 API
-    [HttpGet("{id}")]
-    [MapToApiVersion("2.0")]
-    public async Task<ActionResult<IEnumerable<State>>> GetStateV2_0(int id)
-    {
-      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+    // [HttpGet("{id}")]
+    // [MapToApiVersion("2.0")]
+    // public async Task<ActionResult<IEnumerable<State>>> GetStateV2_0(int id)
+    // {
+    //   var query = _db.States.Include(entry => entry.Parks).AsQueryable();
 
-      if (query == null)
-      {
-        return NotFound();
-      }
-      query = query.Where(entry => entry.StateId == id);
+    //   if (query == null)
+    //   {
+    //     return NotFound();
+    //   }
+    //   query = query.Where(entry => entry.StateId == id);
 
-      return await query.ToListAsync();
-    }
+    //   return await query.ToListAsync();
+    // }
 
-    [HttpGet]
-    [MapToApiVersion("2.0")]
-    public async Task<ActionResult<IEnumerable<State>>> GetV2_0(string stateName)
-    {
-      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+    // [HttpGet]
+    // [MapToApiVersion("2.0")]
+    // public async Task<ActionResult<IEnumerable<State>>> GetV2_0(string stateName)
+    // {
+    //   var query = _db.States.Include(entry => entry.Parks).AsQueryable();
 
-      if (stateName != null)
-      {
-        query = query.Where(e => e.StateName.Contains(stateName));
-      }
+    //   if (stateName != null)
+    //   {
+    //     query = query.Where(e => e.StateName.Contains(stateName));
+    //   }
 
-      return await query.ToListAsync();
-    }
+    //   return await query.ToListAsync();
+    // }
 
-    [HttpPost("add")]
-    [MapToApiVersion("2.0")]
-    public async Task<ActionResult<State>> PostV2_0(State state)
-    {
-      _db.States.Add(state);
-      await _db.SaveChangesAsync();
+    // [HttpPost("add")]
+    // [MapToApiVersion("2.0")]
+    // public async Task<ActionResult<State>> PostV2_0(State state)
+    // {
+    //   _db.States.Add(state);
+    //   await _db.SaveChangesAsync();
 
-      return CreatedAtAction("Post", new { id = state.StateId }, state);
-    }
+    //   return CreatedAtAction("Post", new { id = state.StateId }, state);
+    // }
   }
 }
