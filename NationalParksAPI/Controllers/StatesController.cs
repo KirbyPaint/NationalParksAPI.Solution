@@ -11,78 +11,146 @@ namespace NationalParksAPI.Controllers
   [ApiController]
   [ApiVersion("1.0")]
   [ApiVersion("2.0")]
-  public class StatesV1Controller : ControllerBase
+  public class StatesController : ControllerBase
   {
-
-    // GET api/values
-    [HttpGet]
-    public IEnumerable<string> Get()
+    private readonly NationalParksAPIContext _db;
+    public StatesController(NationalParksAPIContext db)
     {
-      return new string[] { "Value1 from Version 1", "value2 from Version 1" };
+      _db = db;
     }
 
-    // GET api/values
+    [HttpGet("{id}")]
+    public async Task<ActionResult<IEnumerable<State>>> GetState(int id)
+    {
+      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+      if (query == null)
+      {
+        return NotFound();
+      }
+      query = query.Where(entry => entry.StateId == id);
+
+      return await query.ToListAsync();
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
+    {
+      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+      if (statename != null)
+      {
+        query = query.Where(e => e.StateName == statename);
+      }
+
+      return await query.ToListAsync();
+    }
+
+    [HttpPost("add")]
+    public async Task<ActionResult<State>> Post(State state)
+    {
+      _db.States.Add(state);
+      await _db.SaveChangesAsync();
+
+      return CreatedAtAction("Post", new { id = state.StateId }, state);
+    }
+
+
+    // Version 2 API
+    [HttpGet("{id}")]
+    [MapToApiVersion("2.0")]
+    public async Task<ActionResult<IEnumerable<State>>> GetStateV2_0(int id)
+    {
+      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+      if (query == null)
+      {
+        return NotFound();
+      }
+      query = query.Where(entry => entry.StateId == id);
+
+      return await query.ToListAsync();
+    }
+
     [HttpGet]
     [MapToApiVersion("2.0")]
-    public IEnumerable<string> GetV2_0()
+    public async Task<ActionResult<IEnumerable<State>>> GetV2_0(string statename)
     {
-      return new string[] { "Value1 from Version 2", "value2 from Version 2" };
-    }
-  }
+      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
 
-  [ApiVersion("2.0")]
-  [Route("api/states")]
-  public class StatesV2Controller : Controller
-  {
+      if (statename != null)
+      {
+        query = query.Where(e => e.StateName.Contains(statename));
+      }
+
+      return await query.ToListAsync();
+    }
+
+    [HttpPost("add")]
+    [MapToApiVersion("2.0")]
+    public async Task<ActionResult<State>> PostV2_0(State state)
+    {
+      _db.States.Add(state);
+      await _db.SaveChangesAsync();
+
+      return CreatedAtAction("Post", new { id = state.StateId }, state);
+    }
+
     // GET api/values
-    [HttpGet]
-    public IEnumerable<string> Get()
-    {
-      return new string[] { "value1 from Version 2", "value2 from Version 2" };
-    }
-
-    // private readonly NationalParksAPIContext _db;
-    // public StatesController(NationalParksAPIContext db)
-    // {
-    //   _db = db;
-    // }
-
-    // [HttpGet("{id}")]
-    // public async Task<ActionResult<IEnumerable<State>>> GetState(int id)
-    // {
-    //   var query = _db.States.Include(entry => entry.Parks).AsQueryable();
-
-    //   if (query == null)
-    //   {
-    //     return NotFound();
-    //   }
-    //   query = query.Where(entry => entry.StateId == id);
-
-    //   return await query.ToListAsync();
-    // }
-
     // [HttpGet]
-    // public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
+    // public IEnumerable<string> Get()
     // {
-    //   var query = _db.States.Include(entry => entry.Parks).AsQueryable();
-
-    //   if (statename != null)
-    //   {
-    //     query = query.Where(e => e.StateName.Contains(statename));
-    //   }
-
-    //   return await query.ToListAsync();
+    //   return new string[] { "Value1 from Version 1", "value2 from Version 1" };
     // }
 
-    // [HttpPost("add")]
-    // public async Task<ActionResult<State>> Post(State state)
+    // // GET api/values
+    // [HttpGet]
+    // [MapToApiVersion("2.0")]
+    // public IEnumerable<string> GetV2_0()
     // {
-    //   _db.States.Add(state);
-    //   await _db.SaveChangesAsync();
-
-    //   return CreatedAtAction("Post", new { id = state.StateId }, state);
+    //   return new string[] { "Value1 from Version 2", "value2 from Version 2" };
     // }
-
-
   }
+
+  // private readonly NationalParksAPIContext _db;
+  // public StatesController(NationalParksAPIContext db)
+  // {
+  //   _db = db;
+  // }
+
+  // [HttpGet("{id}")]
+  // public async Task<ActionResult<IEnumerable<State>>> GetState(int id)
+  // {
+  //   var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+  //   if (query == null)
+  //   {
+  //     return NotFound();
+  //   }
+  //   query = query.Where(entry => entry.StateId == id);
+
+  //   return await query.ToListAsync();
+  // }
+
+  // [HttpGet]
+  // public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
+  // {
+  //   var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+  //   if (statename != null)
+  //   {
+  //     query = query.Where(e => e.StateName.Contains(statename));
+  //   }
+
+  //   return await query.ToListAsync();
+  // }
+
+  // [HttpPost("add")]
+  // public async Task<ActionResult<State>> Post(State state)
+  // {
+  //   _db.States.Add(state);
+  //   await _db.SaveChangesAsync();
+
+  //   return CreatedAtAction("Post", new { id = state.StateId }, state);
+  // }
 }
