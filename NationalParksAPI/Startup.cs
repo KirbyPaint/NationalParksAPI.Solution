@@ -25,9 +25,9 @@ namespace NationalParksAPI
       services.AddControllers();
       services.AddApiVersioning(o =>
       {
-        o.ReportApiVersions = true;
-        o.AssumeDefaultVersionWhenUnspecified = true;
         o.DefaultApiVersion = new ApiVersion(1, 0);
+        o.AssumeDefaultVersionWhenUnspecified = true;
+        o.ReportApiVersions = true;
       });
     }
 

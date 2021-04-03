@@ -7,8 +7,10 @@ using NationalParksAPI.Models;
 
 namespace NationalParksAPI.Controllers
 {
-  [Route("api/[controller]")]
+  [Route("api/states")]
   [ApiController]
+  [ApiVersion("1.0")]
+  [ApiVersion("2.0")]
   public class StatesController : ControllerBase
   {
     private readonly NationalParksAPIContext _db;
@@ -31,27 +33,14 @@ namespace NationalParksAPI.Controllers
       return await query.ToListAsync();
     }
 
-    // [HttpGet]
-    // public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
-    // {
-    //   var query = _db.States.Include(entry => entry.Parks).AsQueryable();
-
-    //   if (statename != null)
-    //   {
-    //     query = query.Where(e => e.StateName.Contains(statename));
-    //   }
-
-    //   return await query.ToListAsync();
-    // }
-
-    [HttpGet("api/{v:apiVersion}/Values")]
-    public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<State>>> Get(string stateName)
     {
       var query = _db.States.Include(entry => entry.Parks).AsQueryable();
 
-      if (statename != null)
+      if (stateName != null)
       {
-        query = query.Where(e => e.StateName.Contains(statename));
+        query = query.Where(e => e.StateName == stateName);
       }
 
       return await query.ToListAsync();
@@ -59,6 +48,47 @@ namespace NationalParksAPI.Controllers
 
     [HttpPost("add")]
     public async Task<ActionResult<State>> Post(State state)
+    {
+      _db.States.Add(state);
+      await _db.SaveChangesAsync();
+
+      return CreatedAtAction("Post", new { id = state.StateId }, state);
+    }
+
+
+    // Version 2 API
+    [HttpGet("{id}")]
+    [MapToApiVersion("2.0")]
+    public async Task<ActionResult<IEnumerable<State>>> GetStateV2_0(int id)
+    {
+      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+      if (query == null)
+      {
+        return NotFound();
+      }
+      query = query.Where(entry => entry.StateId == id);
+
+      return await query.ToListAsync();
+    }
+
+    [HttpGet]
+    [MapToApiVersion("2.0")]
+    public async Task<ActionResult<IEnumerable<State>>> GetV2_0(string stateName)
+    {
+      var query = _db.States.Include(entry => entry.Parks).AsQueryable();
+
+      if (stateName != null)
+      {
+        query = query.Where(e => e.StateName.Contains(stateName));
+      }
+
+      return await query.ToListAsync();
+    }
+
+    [HttpPost("add")]
+    [MapToApiVersion("2.0")]
+    public async Task<ActionResult<State>> PostV2_0(State state)
     {
       _db.States.Add(state);
       await _db.SaveChangesAsync();
