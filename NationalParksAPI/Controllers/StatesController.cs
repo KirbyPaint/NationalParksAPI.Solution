@@ -55,7 +55,6 @@ namespace NationalParksAPI.Controllers
       return CreatedAtAction("Post", new { id = state.StateId }, state);
     }
 
-
     // Version 2 API
     [HttpGet("{id}")]
     [MapToApiVersion("2.0")]

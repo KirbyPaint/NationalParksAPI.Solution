@@ -255,7 +255,12 @@ _Discord: @KirbyPaint#0751_
 
 ## Technologies Used
 
-_C#, .NET 5, ASP.NET MVC, MySQL and MySQL Workbench, Bootstrap (CSS), Authorization with Identity, Entity Framework Core_
+*  C#
+*  .NET 5
+*  ASP.NET MVC
+*  ASP.NET Versioning
+*  MySQL and MySQL Workbench
+*  Entity Framework Core
 
 ### License Information
 
