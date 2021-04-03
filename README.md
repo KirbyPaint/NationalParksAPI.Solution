@@ -1,9 +1,10 @@
 ------------------------------
 ### <u>Table of Contents</u>
-* <a href="#🌐-about-the-project">About the Project</a>
+* <a href="#about-the-project">About the Project</a>
+* <a href="#end-readme">End Readme</a>
 ------------------------------
 
-## 🌐 About the Project
+## About the Project
 TEST README LINKING
 
 ## (POSTMAN) ROUTES
@@ -149,3 +150,6 @@ Example with custom StateId - recommended best practice is to allow the database
 49: Wisconsin
 50: Wyoming
 ```
+
+## End Readme
+TEST README LINKING
