@@ -24,10 +24,10 @@ namespace NationalParksAPI.Controllers
       return await query.ToListAsync();
     }
 
-    [HttpGet("{parkid}")]
-    public async Task<ActionResult<Park>> GetPark(int parkid)
+    [HttpGet("{parkId}")]
+    public async Task<ActionResult<Park>> GetPark(int parkId)
     {
-      var park = await _db.Parks.FindAsync(parkid);
+      var park = await _db.Parks.FindAsync(parkId);
 
       if (park == null)
       {
@@ -58,11 +58,11 @@ namespace NationalParksAPI.Controllers
       return await query.ToListAsync();
     }
 
-    [HttpPost("{stateid}/add")]
-    public async Task<ActionResult<Park>> Post(Park park, int stateid)
+    [HttpPost("{stateId}/add")]
+    public async Task<ActionResult<Park>> Post(Park park, int stateId)
     {
-      var state = _db.States.Include(entry => entry.Parks).FirstOrDefault(entry => entry.StateId == stateid);
-      park.StateId = stateid;
+      var state = _db.States.Include(entry => entry.Parks).FirstOrDefault(entry => entry.StateId == stateId);
+      park.StateId = stateId;
       state.Parks.Add(park);
       _db.States.Update(state);
       _db.Parks.Add(park);
@@ -71,10 +71,10 @@ namespace NationalParksAPI.Controllers
       return NoContent();
     }
 
-    [HttpPut("edit/{parkid}")]
-    public async Task<ActionResult> Put(int parkid, Park park)
+    [HttpPut("edit/{parkId}")]
+    public async Task<ActionResult> Put(int parkId, Park park)
     {
-      if (parkid != park.ParkId)
+      if (parkId != park.ParkId)
       {
         return NotFound();
       }
@@ -87,7 +87,7 @@ namespace NationalParksAPI.Controllers
       }
       catch (DbUpdateConcurrencyException)
       {
-        if (!ParkExists(parkid))
+        if (!ParkExists(parkId))
         {
           return NotFound();
         }
@@ -100,10 +100,10 @@ namespace NationalParksAPI.Controllers
       return NoContent();
     }
 
-    [HttpDelete("delete/{parkid}")]
-    public async Task<ActionResult> DeletePark(int parkid)
+    [HttpDelete("delete/{parkId}")]
+    public async Task<ActionResult> DeletePark(int parkId)
     {
-      var park = await _db.Parks.FindAsync(parkid);
+      var park = await _db.Parks.FindAsync(parkId);
       if (park == null)
       {
         return NotFound();
@@ -114,9 +114,9 @@ namespace NationalParksAPI.Controllers
 
       return NoContent();
     }
-    private bool ParkExists(int parkid)
+    private bool ParkExists(int parkId)
     {
-      return _db.Parks.Any(e => e.ParkId == parkid);
+      return _db.Parks.Any(e => e.ParkId == parkId);
     }
   }
 }
