@@ -106,7 +106,7 @@ Once you see this in the terminal, you will be able to use the API on your local
 
 ### Parks - Getting Info
 GET ALL: http://localhost:5000/api/parks/all  
-GET BY ID: http://localhost:5000/api/parks/`parkId`  
+GET BY ID: http://localhost:5000/api/parks/parkId  
   Where `parkId` is that Park's parkId value as integer (starting at 1)
 
 Search Parameters & Examples
@@ -171,16 +171,16 @@ GET STATE BY ID: http://localhost:5000/api/states/stateId
 *  Where `stateId` is that State's stateId value as integer (starting at 1, seeded data ends at 50)
 
 Search Parameters & Examples  
-http://localhost:5000/api/states?statename=north  
+http://localhost:5000/api/states?stateName=north  
 *  Note: In API version 1.0, this search is an *exact* search - when searching States, write the request URL like so:  
-    *  http://localhost:5000/api/states?statename=north?api-version=2.0 to force the API to search with the upgraded version.  
+    *  http://localhost:5000/api/states?stateName=north?api-version=2.0 to force the API to search with the upgraded version.  
 *  This upgraded version of the search will allow a partial search: I.E., running "north" on states with version 1.0 will not pull up any states in the database, but searching "north" with version 2.0 of the API will pull up both "North Dakota" and "North Carolina".
 
 POST: http://localhost:5000/api/states/add
 ```JSON
 Example
 {
-    "statename": "Puerto Rico"
+    "stateName": "Puerto Rico"
 }
 
 Example with custom stateId - recommended best practice is to allow the database to increment its own IDs, but this is technically possible.

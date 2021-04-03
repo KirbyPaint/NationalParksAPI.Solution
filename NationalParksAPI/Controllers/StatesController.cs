@@ -34,13 +34,13 @@ namespace NationalParksAPI.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
+    public async Task<ActionResult<IEnumerable<State>>> Get(string stateName)
     {
       var query = _db.States.Include(entry => entry.Parks).AsQueryable();
 
-      if (statename != null)
+      if (stateName != null)
       {
-        query = query.Where(e => e.StateName == statename);
+        query = query.Where(e => e.StateName == stateName);
       }
 
       return await query.ToListAsync();
@@ -74,13 +74,13 @@ namespace NationalParksAPI.Controllers
 
     [HttpGet]
     [MapToApiVersion("2.0")]
-    public async Task<ActionResult<IEnumerable<State>>> GetV2_0(string statename)
+    public async Task<ActionResult<IEnumerable<State>>> GetV2_0(string stateName)
     {
       var query = _db.States.Include(entry => entry.Parks).AsQueryable();
 
-      if (statename != null)
+      if (stateName != null)
       {
-        query = query.Where(e => e.StateName.Contains(statename));
+        query = query.Where(e => e.StateName.Contains(stateName));
       }
 
       return await query.ToListAsync();
@@ -133,13 +133,13 @@ namespace NationalParksAPI.Controllers
   // }
 
   // [HttpGet]
-  // public async Task<ActionResult<IEnumerable<State>>> Get(string statename)
+  // public async Task<ActionResult<IEnumerable<State>>> Get(string stateName)
   // {
   //   var query = _db.States.Include(entry => entry.Parks).AsQueryable();
 
-  //   if (statename != null)
+  //   if (stateName != null)
   //   {
-  //     query = query.Where(e => e.StateName.Contains(statename));
+  //     query = query.Where(e => e.StateName.Contains(stateName));
   //   }
 
   //   return await query.ToListAsync();
