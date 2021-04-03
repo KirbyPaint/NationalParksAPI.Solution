@@ -1,3 +1,11 @@
+------------------------------
+### <u>Table of Contents</u>
+* <a href="#🌐-about-the-project">About the Project</a>
+------------------------------
+
+## 🌐 About the Project
+TEST README LINKING
+
 ## (POSTMAN) ROUTES
 
 ### Parks
@@ -67,6 +75,9 @@ GET STATE BY ID: http://localhost:5000/api/states/`StateId`
 
 Search Parameters & Examples  
 http://localhost:5000/api/states?`statename`=`north`
+  Note: In API version 1.0, this search is an *exact* search - when searching States, write the request URL like so:  
+  http://localhost:5000/api/states?`statename`=`north`?api-version=2.0 to force the API to search with the upgraded version.  
+  This upgraded version of the search will allow a partial search: I.E., running "north" on states with version 1.0 will not pull up any states in the database, but searching "north" with version 2.0 of the API will pull up both "North Dakota" and "North Carolina".
 
 #### Sending Info
 
