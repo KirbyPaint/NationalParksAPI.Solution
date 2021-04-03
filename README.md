@@ -106,32 +106,32 @@ Once you see this in the terminal, you will be able to use the API on your local
 
 ### Parks - Getting Info
 GET ALL: http://localhost:5000/api/parks/all  
-GET BY ID: http://localhost:5000/api/parks/`ParkId`  
-  Where `ParkId` is that Park's ParkId value as integer (starting at 1)
+GET BY ID: http://localhost:5000/api/parks/`parkId`  
+  Where `parkId` is that Park's parkId value as integer (starting at 1)
 
 Search Parameters & Examples
 
 | Parameter   | Type        | Description | Example Query |
 | ----------- | ----------- | ----------- | ----------- |
-| title       | String      | Title of the park. | http://localhost:5000/api/parks?`name`=`john` |
-| description | String      | Description of the park | http://localhost:5000/api/parks?`description`=`john` |
-| longitude   | Double      | The angular distance of a place east or west of the meridian at Greenwich, England. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | http://localhost:5000/api/parks?`longitude`=`42.9`&`latitude`=`-122.1` |
+| title       | String      | Title of the park. | http://localhost:5000/api/parks?name=john |
+| description | String      | Description of the park | http://localhost:5000/api/parks?description=john |
+| longitude   | Double      | The angular distance of a place east or west of the meridian at Greenwich, England. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | http://localhost:5000/api/parks?longitude=42.9&latitude=-122.1 |
 | latitude    | Double      | The angular distance of a place north or south of the earth's equator. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | See above for example |
 | imageUrl    | String      | A URL leading to an image of the park. Optional. | https://exampleurl.jpg |
 
 ### Sending Info
-POST: http://localhost:5000/api/parks/`StateId`/add  
-  Where `StateId` is the numerical value for the State this Park belongs in (starting at 1, default max of 50, one per state)
+POST: http://localhost:5000/api/parks/stateId/add  
+  Where stateId is the numerical value for the State this Park belongs in (starting at 1, default max of 50, one per state)
 
 Structure for posting to Parks:  
-  Note: DO NOT add "missing" StateId or ParkId information in the request or it may affect the overall file structure
+  Note: DO NOT add "missing" stateId or parkId information in the request or it may affect the overall file structure
 ```JSON
 Example:
 {
     "name": "text in quotes",
     "description": "text in quotes",
-    "longitude": longitude to as many decimal points as possible, NO SYMBOLS EXCEPT POSSIBLE MINUS SIGN FOR VALUES WEST OF MERIDIAN,
-    "latitude": latitude to as many decimal points as possible, NO SYMBOLS EXCEPT POSSIBLE MINUS SIGN FOR VALUES SOUTH OF EQUATOR,
+    "longitude": -50.00,
+    "latitude": -50.00,
     "imageUrl": "text string of url ending in an image filetype (for displaying, not required)"
 }
 
@@ -146,8 +146,8 @@ Empty Example:
 ```
 
 ### Editing Existing Info
-PUT: http://localhost:5000/api/parks/edit/`ParkId`  
-  Where `ParkId` is that Park's ParkId value as integer (starting at 1)
+PUT: http://localhost:5000/api/parks/edit/parkId  
+  Where `parkId` is that Park's parkId value as integer (starting at 1)
 ```JSON
 Empty Example:
 {
@@ -161,19 +161,19 @@ Empty Example:
 }
 ```
 ### Removing Info
-DELETE: http://localhost:5000/api/parks/delete/`ParkId`  
-*  Where `ParkId` is that Park's ParkId value as integer (starting at 1)
+DELETE: http://localhost:5000/api/parks/delete/parkId  
+*  Where `parkId` is that Park's parkId value as integer (starting at 1)
 
 ### States - How to Use
 
 GET ALL: http://localhost:5000/api/states  
-GET STATE BY ID: http://localhost:5000/api/states/`StateId`  
-*  Where `StateId` is that State's StateId value as integer (starting at 1, seeded data ends at 50)
+GET STATE BY ID: http://localhost:5000/api/states/stateId 
+*  Where `stateId` is that State's stateId value as integer (starting at 1, seeded data ends at 50)
 
 Search Parameters & Examples  
-http://localhost:5000/api/states?`statename`=`north`  
+http://localhost:5000/api/states?statename=north  
 *  Note: In API version 1.0, this search is an *exact* search - when searching States, write the request URL like so:  
-    *  http://localhost:5000/api/states?`statename`=`north`?api-version=2.0 to force the API to search with the upgraded version.  
+    *  http://localhost:5000/api/states?statename=north?api-version=2.0 to force the API to search with the upgraded version.  
 *  This upgraded version of the search will allow a partial search: I.E., running "north" on states with version 1.0 will not pull up any states in the database, but searching "north" with version 2.0 of the API will pull up both "North Dakota" and "North Carolina".
 
 POST: http://localhost:5000/api/states/add
@@ -183,7 +183,7 @@ Example
     "statename": "Puerto Rico"
 }
 
-Example with custom StateId - recommended best practice is to allow the database to increment its own IDs, but this is technically possible.
+Example with custom stateId - recommended best practice is to allow the database to increment its own IDs, but this is technically possible.
 {
     "stateId": 60,
     "stateName": "Cascadia"
