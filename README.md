@@ -11,6 +11,7 @@ _Additionally, as part of further exploration, this API showcases versioning._
 _There is a version 1.0 and a version 2.0_
 
 ------------------------------
+
 ### <u>Table of Contents</u>
 * <a href="#setup-and-installation-requirements">Setup/Installation Requirements</a>
   * <a href="#cloning-with-git">Cloning with Git</a>
@@ -25,6 +26,7 @@ _There is a version 1.0 and a version 2.0_
 * <a href="#known-bugs-and-issues">Known Bugs and Issues</a>
 * <a href="#support-and-contact-details">Support and Contact Details</a>
 * <a href="#technologies-used">Technologies Used</a>
+
 ------------------------------
 
 ## Setup and Installation Requirements
