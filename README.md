@@ -251,6 +251,10 @@ Example with custom stateId - recommended best practice is to allow the database
 
 ## Known Bugs and Issues
 
+Adding versioning appears to have broken all of the best functions of this API, including:
+*  Searching parks within a longitude&latitude range
+*  Searching by name and description together (now it is an either/or deal)
+
 ## Support and contact details
 
 _Discord: @KirbyPaint#0751_

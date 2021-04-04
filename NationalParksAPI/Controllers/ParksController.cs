@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace NationalParksAPI.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]
+  [ApiVersion("1.0")]
+  [ApiVersion("2.0")]
   public class ParksController : ControllerBase
   {
     private readonly NationalParksAPIContext _db;
@@ -37,22 +40,42 @@ namespace NationalParksAPI.Controllers
       return park;
     }
 
-    [HttpGet]
+    [HttpGet("search")]
     public async Task<ActionResult<IEnumerable<Park>>> Get(string name, string description, double longitude, double latitude)
     {
       var query = _db.Parks.AsQueryable();
-
       if (name != null)
       {
         query = query.Where(entry => entry.Name.Contains(name));
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("Title search triggered, title is {0}", name);
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
       }
       if (description != null)
       {
         query = query.Where(entry => entry.Description.Contains(description));
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("Description search triggered, description is {0}", description);
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
       }
-      if (latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180)
+      if ((longitude != 0 && latitude != 0))
       {
-        query = query.Where(entry => entry.Longitude <= (longitude + 0.5) && entry.Longitude >= (longitude - 0.5) && entry.Latitude <= (latitude + 0.5) && entry.Latitude >= (latitude - 0.5));
+        query = query.Where(entry => (entry.Longitude <= (longitude + 0.5) && entry.Longitude >= (longitude - 0.5)) && (entry.Latitude <= (latitude + 0.5) && entry.Latitude >= (latitude - 0.5)));
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine("Area search triggered, longitude is {0} and latitude is {1}", longitude, latitude);
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
       }
 
       return await query.ToListAsync();

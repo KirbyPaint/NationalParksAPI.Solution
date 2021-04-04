@@ -15,10 +15,10 @@ namespace NationalParksAPI.Models
     public string Description { get; set; }
 
     [Required]
-    public double Longitude { get; set; }
+    public Double Longitude { get; set; }
 
     [Required]
-    public double Latitude { get; set; }
+    public Double Latitude { get; set; }
 
     [Required]
     public int StateId { get; set; }
