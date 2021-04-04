@@ -67,7 +67,7 @@ First, you will need to ensure you navigate into the `\NationalParksAPI.Solution
 }
 ```
 
-You will then need to make at least TWO changes to the appsettings.json file:  
+You will then need to make a change to the appsettings.json file:  
 Where the text says `database=national_parks`, this name is provided for user convenience. You may change `national_parks` to anything you would like, and if the naming scheme is valid, the installation will create a database schema with your custom name.  
 Where the text says `pwd=[YOUR PASSWORD]`, enter your own secure password, and remove the brackets. If your password is `SafePassword123` this code will look like `pwd=SafePassword123`  
 This ensures that the program will be able to read and write to your own local database.
@@ -112,7 +112,7 @@ GET ALL: http://localhost:5000/api/parks/all
 GET BY ID: http://localhost:5000/api/parks/parkId  
 *  Where `parkId` is that Park's parkId value as integer (starting at 1)
 
-Search Parameters & Examples
+Search Parameters & Examples  
 SEARCH URL: http://localhost:5000/api/parks/search?name=john
 
 | Parameter   | Type        | Description | Example Query |
@@ -121,7 +121,7 @@ SEARCH URL: http://localhost:5000/api/parks/search?name=john
 | description | String      | Description of the park | http://localhost:5000/api/parks/search?description=john |
 | longitude   | Double      | The angular distance of a place east or west of the meridian at Greenwich, England. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | http://localhost:5000/api/parks/search?longitude=44.5&latitude=-119.6 |
 | latitude    | Double      | The angular distance of a place north or south of the earth's equator. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | See above for example |
-| imageUrl    | String      | A URL leading to an image of the park. NOTE: This parameter is optional when posting new parks. In addition, this is NOT a searchable parameter. | https://exampleurl.jpg |
+| imageUrl    | String      | A URL leading to an image of the park. NOTE: This parameter is optional when posting new parks. In addition, this is NOT a searchable parameter, it is only provided for reference. | https://exampleurl.jpg |
 
 ### Sending Info
 POST: http://localhost:5000/api/parks/stateId/add  
@@ -196,19 +196,18 @@ Example with custom stateId - recommended best practice is to allow the database
 
 ### API Version Differences
 
-This API comes with a Version 1.0 and a Version 2.0. See the below table for features that differ between versions:
+This API comes with a Version 1.0 and a Version 2.0. To use the version 2.0 API, use `api-version=2.0` as an additional parameter key and value.  
+See the below table for features that differ between versions:
 
 Parks Table:
 | Function | Description | API 1.0 Behavior | API 2.0 Behavior |
 | -------- | ----------- | ---------------- | ---------------- |
 | GET-name | Search for park(s) matching Title | Returns parks where park Title exactly matches search criteria | Returns parks where park Title matches any part of search criteria |
-|-|-|-|-|
 
 States Table:
 | Function | Description | API 1.0 Behavior | API 2.0 Behavior |
 | -------- | ----------- | ---------------- | ---------------- |
 | GET-name | Search for state(s) matching StateName | Returns states where state StateName exactly matches search criteria | Returns states where state StateName matches any part of search criteria |
-|-|-|-|-|
 
 <details>
 <summary>State IDs and Corresponding States</summary>
@@ -269,9 +268,8 @@ States Table:
 
 ## Known Bugs and Issues
 
-Adding versioning appears to have broken all of the best functions of this API, including:
-*  Searching parks within a longitude&latitude range
-*  Searching by name and description together (now it is an either/or deal)
+No _known_ bugs at this time, I am pleased to report.  
+If you think you are experiencing a bug, ensure that the URL parameter `&api-version=2.0` is in the string. If this fails to solve your issue, please send me a bug report.
 
 ## Support and contact details
 
