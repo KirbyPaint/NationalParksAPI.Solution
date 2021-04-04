@@ -8,7 +8,7 @@
 
 _The purpose of this API is to demonstrate knowledge of building an API, customizing routes for the API, and storing the user's data in the database._  
 _Additionally, as part of further exploration, this API showcases versioning._  
-_There is a version 1.0 and a version 2.0_
+_There is a version 1.0 and a version 2.0._
 
 ------------------------------
 
@@ -22,7 +22,8 @@ _There is a version 1.0 and a version 2.0_
   * <a href="#sending-info">Sending Info</a>
   * <a href="#editing-existing-info">Editing Existing Info</a>
   * <a href="#removing-info">Removing Info</a>
-* <a href="#states---how-to-use">States - How to Use</a>
+  * <a href="#states---how-to-use">States - How to Use</a>
+  * <a href="#api-version-differences">API Version Differences</a>
 * <a href="#known-bugs-and-issues">Known Bugs and Issues</a>
 * <a href="#support-and-contact-details">Support and Contact Details</a>
 * <a href="#technologies-used">Technologies Used</a>
@@ -61,13 +62,13 @@ First, you will need to ensure you navigate into the `\NationalParksAPI.Solution
 ```
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Port=3306;database=[DATABASE_NAME];uid=root;pwd=[YOUR PASSWORD];"
+    "DefaultConnection": "Server=localhost;Port=3306;database=national_parks;uid=root;pwd=[YOUR PASSWORD];"
   }
 }
 ```
 
 You will then need to make at least TWO changes to the appsettings.json file:  
-Where the text says `database=[DATABASE_NAME]`, enter your own database's name, and remove the brackets. If your database was named `my_database` this code will look like `database=my_database`  
+Where the text says `database=national_parks`, this name is provided for user convenience. You may change `national_parks` to anything you would like, and if the naming scheme is valid, the installation will create a database schema with your custom name.  
 Where the text says `pwd=[YOUR PASSWORD]`, enter your own secure password, and remove the brackets. If your password is `SafePassword123` this code will look like `pwd=SafePassword123`  
 This ensures that the program will be able to read and write to your own local database.
 
@@ -118,9 +119,9 @@ SEARCH URL: http://localhost:5000/api/parks/search?name=john
 | ----------- | ----------- | ----------- | ----------- |
 | title       | String      | Title of the park. | http://localhost:5000/api/parks/search?name=john |
 | description | String      | Description of the park | http://localhost:5000/api/parks/search?description=john |
-| longitude   | Double      | The angular distance of a place east or west of the meridian at Greenwich, England. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | http://localhost:5000/api/parks?longitude=44.5&latitude=-119.6 |
+| longitude   | Double      | The angular distance of a place east or west of the meridian at Greenwich, England. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | http://localhost:5000/api/parks/search?longitude=44.5&latitude=-119.6 |
 | latitude    | Double      | The angular distance of a place north or south of the earth's equator. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | See above for example |
-| imageUrl    | String      | A URL leading to an image of the park. Optional. | https://exampleurl.jpg |
+| imageUrl    | String      | A URL leading to an image of the park. NOTE: This parameter is optional when posting new parks. In addition, this is NOT a searchable parameter. | https://exampleurl.jpg |
 
 ### Sending Info
 POST: http://localhost:5000/api/parks/stateId/add  
@@ -176,7 +177,7 @@ GET STATE BY ID: http://localhost:5000/api/states/stateId
 Search Parameters & Examples  
 http://localhost:5000/api/states?stateName=north  
 *  Note: In API version 1.0, this search is an *exact* search - when searching States, write the request URL like so:  
-    *  http://localhost:5000/api/states?stateName=north?api-version=2.0 to force the API to search with the upgraded version.  
+    *  http://localhost:5000/api/states?stateName=north&api-version=2.0 to force the API to search with the upgraded version.  
 *  This upgraded version of the search will allow a partial search: I.E., running "north" on states with version 1.0 will not pull up any states in the database, but searching "north" with version 2.0 of the API will pull up both "North Dakota" and "North Carolina".
 
 POST: http://localhost:5000/api/states/add
@@ -192,6 +193,22 @@ Example with custom stateId - recommended best practice is to allow the database
     "stateName": "Cascadia"
 }
 ```
+
+### API Version Differences
+
+This API comes with a Version 1.0 and a Version 2.0. See the below table for features that differ between versions:
+
+Parks Table:
+| Function | Description | API 1.0 Behavior | API 2.0 Behavior |
+| -------- | ----------- | ---------------- | ---------------- |
+| GET-name | Search for park(s) matching Title | Returns parks where park Title exactly matches search criteria | Returns parks where park Title matches any part of search criteria |
+|-|-|-|-|
+
+States Table:
+| Function | Description | API 1.0 Behavior | API 2.0 Behavior |
+| -------- | ----------- | ---------------- | ---------------- |
+| GET-name | Search for state(s) matching StateName | Returns states where state StateName exactly matches search criteria | Returns states where state StateName matches any part of search criteria |
+|-|-|-|-|
 
 <details>
 <summary>State IDs and Corresponding States</summary>
