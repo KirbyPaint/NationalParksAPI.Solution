@@ -46,36 +46,15 @@ namespace NationalParksAPI.Controllers
       var query = _db.Parks.AsQueryable();
       if (name != null)
       {
-        query = query.Where(entry => entry.Name.Contains(name));
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("Title search triggered, title is {0}", name);
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
+        query = query.Where(entry => entry.Name == name);
       }
       if (description != null)
       {
         query = query.Where(entry => entry.Description.Contains(description));
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("Description search triggered, description is {0}", description);
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
       }
       if ((longitude != 0 && latitude != 0))
       {
         query = query.Where(entry => (entry.Longitude <= (longitude + 0.5) && entry.Longitude >= (longitude - 0.5)) && (entry.Latitude <= (latitude + 0.5) && entry.Latitude >= (latitude - 0.5)));
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine("Area search triggered, longitude is {0} and latitude is {1}", longitude, latitude);
-        Console.WriteLine();
-        Console.WriteLine();
-        Console.WriteLine();
       }
 
       return await query.ToListAsync();
@@ -165,12 +144,11 @@ namespace NationalParksAPI.Controllers
       return park;
     }
 
-    [HttpGet]
+    [HttpGet("search")]
     [MapToApiVersion("2.0")]
     public async Task<ActionResult<IEnumerable<Park>>> GetV2_0(string name, string description, double longitude, double latitude)
     {
       var query = _db.Parks.AsQueryable();
-
       if (name != null)
       {
         query = query.Where(entry => entry.Name.Contains(name));
@@ -179,9 +157,9 @@ namespace NationalParksAPI.Controllers
       {
         query = query.Where(entry => entry.Description.Contains(description));
       }
-      if (latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180)
+      if ((longitude != 0 && latitude != 0))
       {
-        query = query.Where(entry => entry.Longitude <= (longitude + 0.5) && entry.Longitude >= (longitude - 0.5) && entry.Latitude <= (latitude + 0.5) && entry.Latitude >= (latitude - 0.5));
+        query = query.Where(entry => (entry.Longitude <= (longitude + 0.5) && entry.Longitude >= (longitude - 0.5)) && (entry.Latitude <= (latitude + 0.5) && entry.Latitude >= (latitude - 0.5)));
       }
 
       return await query.ToListAsync();

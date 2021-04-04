@@ -109,24 +109,25 @@ Once you see this in the terminal, you will be able to use the API on your local
 ### Parks - Getting Info
 GET ALL: http://localhost:5000/api/parks/all  
 GET BY ID: http://localhost:5000/api/parks/parkId  
-  Where `parkId` is that Park's parkId value as integer (starting at 1)
+*  Where `parkId` is that Park's parkId value as integer (starting at 1)
 
 Search Parameters & Examples
+SEARCH URL: http://localhost:5000/api/parks/search?name=john
 
 | Parameter   | Type        | Description | Example Query |
 | ----------- | ----------- | ----------- | ----------- |
-| title       | String      | Title of the park. | http://localhost:5000/api/parks?name=john |
-| description | String      | Description of the park | http://localhost:5000/api/parks?description=john |
-| longitude   | Double      | The angular distance of a place east or west of the meridian at Greenwich, England. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | http://localhost:5000/api/parks?longitude=42.9&latitude=-122.1 |
+| title       | String      | Title of the park. | http://localhost:5000/api/parks/search?name=john |
+| description | String      | Description of the park | http://localhost:5000/api/parks/search?description=john |
+| longitude   | Double      | The angular distance of a place east or west of the meridian at Greenwich, England. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | http://localhost:5000/api/parks?longitude=44.5&latitude=-119.6 |
 | latitude    | Double      | The angular distance of a place north or south of the earth's equator. Enter as many significant digits known as possible - must be within +/-0.5 degrees of accuracy. | See above for example |
 | imageUrl    | String      | A URL leading to an image of the park. Optional. | https://exampleurl.jpg |
 
 ### Sending Info
 POST: http://localhost:5000/api/parks/stateId/add  
-  Where stateId is the numerical value for the State this Park belongs in (starting at 1, default max of 50, one per state)
+*  Where stateId is the numerical value for the State this Park belongs in (starting at 1, default max of 50, one per state)
 
 Structure for posting to Parks:  
-  Note: DO NOT add "missing" stateId or parkId information in the request or it may affect the overall file structure
+*  Note: DO NOT add "missing" stateId or parkId information in the request or it may affect the overall file structure
 ```JSON
 Example:
 {
